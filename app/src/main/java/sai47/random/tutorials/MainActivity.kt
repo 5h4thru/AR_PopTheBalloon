@@ -2,6 +2,7 @@ package sai47.random.tutorials
 
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.ar.sceneform.Camera
 import com.google.ar.sceneform.Node
@@ -36,6 +37,29 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         prepareARScene()
+        prepareButton()
+    }
+
+    /**
+     * Button setup and click listener
+     */
+    private fun prepareButton() {
+        val shoot: Button = findViewById(R.id.shootButton)
+
+        shoot.setOnClickListener { shoot() }
+    }
+
+    /**
+     * Method to add renderable buleet to the scene
+     */
+    private fun shoot() {
+        val node = Node()
+        node.renderable = bulletRenderable
+        scene.addChild(node)
+
+        Thread {
+            runOnUiThread { scene.removeChild(node) }
+        }.start()
     }
 
     /**
