@@ -3,6 +3,7 @@ package sai47.random.tutorials
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.ar.sceneform.Camera
 import com.google.ar.sceneform.Node
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var scene: Scene
     private lateinit var camera: Camera
     private lateinit var bulletRenderable: ModelRenderable
+    private var shouldStartTimer: Boolean = true
+    private var balloonsLeft = 20
 
     /**
      * Sample Assets to test loading remote models
@@ -46,19 +49,72 @@ class MainActivity : AppCompatActivity() {
     private fun prepareButton() {
         val shoot: Button = findViewById(R.id.shootButton)
 
-        shoot.setOnClickListener { shoot() }
+        shoot.setOnClickListener {
+            if (shouldStartTimer) {
+                startTimer()
+                shouldStartTimer = false
+            }
+            shoot()
+        }
     }
 
     /**
-     * Method to add renderable buleet to the scene
+     * Method to add renderable bullet to the scene
      */
     private fun shoot() {
         val node = Node()
         node.renderable = bulletRenderable
         scene.addChild(node)
-
         Thread {
             runOnUiThread { scene.removeChild(node) }
+        }.start()
+        updateBalloonsLeftCount(node)
+    }
+
+    /**
+     * Updates the # of balloons left count in the scene
+     */
+    private fun updateBalloonsLeftCount(node: Node) {
+        val balloonsLeftText: TextView = findViewById(R.id.balloonsCountText)
+
+        Thread {
+            for (i in 0..199) {
+                runOnUiThread {
+                    val nodeInContact = scene.overlapTest(node)
+                    if (nodeInContact != null) {
+                        balloonsLeft--
+                        balloonsLeftText.setText("Balloons Left: $balloonsLeft")
+                        scene.removeChild(nodeInContact)
+                    }
+                }
+                try {
+                    Thread.sleep(10)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+            }
+        }.start()
+    }
+
+    /**
+     * Starts a timer and displays it on the scene
+     */
+    private fun startTimer() {
+        val timer: TextView = findViewById(R.id.timerText)
+
+        Thread {
+            var seconds = 0
+            while (balloonsLeft > 0) {
+                try {
+                    Thread.sleep(1000)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
+                }
+                seconds++
+                val minutesPassed = seconds / 60
+                val secondsPassed = seconds % 60
+                runOnUiThread { timer.text = "$minutesPassed:$secondsPassed" }
+            }
         }.start()
     }
 
