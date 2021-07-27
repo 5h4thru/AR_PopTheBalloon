@@ -6,7 +6,7 @@ import com.google.ar.sceneform.ux.ArFragment
 class CustomArFragment : ArFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        planeDiscoveryController.hide()
-        planeDiscoveryController.setInstructionView(null)
+        // planeDiscoveryController.hide()
+        // planeDiscoveryController.setInstructionView(null)
     }
 }
