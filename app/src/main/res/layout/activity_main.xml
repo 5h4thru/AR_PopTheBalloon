@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".MainActivity">
 
     <fragment
-        android:id="@+id/ar_fragment"
-        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:id="@+id/customArFragment"
+        android:name="sai47.random.tutorials.fragments.CustomArFragment"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/balloonsCountText"
+        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_width="wrap_content"
+        android:text="@string/balloons_remaining" />
+
+    <TextView
+        android:id="@+id/timerText"
+        android:fontFamily="serif-monospace"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
+        android:text="@string/timer"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <View
+        android:background="#7a000000"
+        android:layout_centerInParent="true"
+        android:layout_height="72dp"
+        android:layout_width="4dp" />
+
+    <View
+        android:background="#7a000000"
+        android:layout_centerInParent="true"
+        android:layout_height="4dp"
+        android:layout_width="72dp" />
+
+    <Button
+        android:id="@+id/shootButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:text="@string/shoot" />
+
+</RelativeLayout>
